@@ -4,16 +4,32 @@ import java.util.List;
 import kmts.KMTS;
 import kmts.element.State;
 import synthesizer.Synthesizer;
+import uml.sequencediagram.Action;
+import uml.sequencediagram.Lifeline;
+import uml.sequencediagram.SequenceDiagram;
 
 
 public class MainApp {
 
 	public static void main(String args[])
 	{
-		test1();
+		testKMTS();
+		testSequenceDiagram();
 	}
 	
-	private static void test1()
+	private static void testSequenceDiagram()
+	{
+		SequenceDiagram sd = new SequenceDiagram("Teste");
+		Lifeline lifeline1 = new Lifeline("Componente1");
+		Lifeline lifeline2 = new Lifeline("Componente2");
+		sd.addLifeline(lifeline1);
+		sd.addLifeline(lifeline2);
+		Action action = new Action("msg");
+		sd.addMessageBetween(lifeline1, lifeline2, action );
+		sd.toString();
+	}
+	
+	private static void testKMTS()
 	{
 		KMTS kmts = new KMTS();
 		State state = new State();
@@ -32,7 +48,7 @@ public class MainApp {
 		System.out.println(kmts.toString());
 	}
 	
-	private static void test11()
+	private static void testSynthesis()
 	{
 		List<String> fileInputs = new ArrayList<String>();
 		fileInputs.add("");

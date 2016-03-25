@@ -16,12 +16,14 @@ public class Message {
 	}
 	public void setInPoint(LifelinePoint inPoint) {
 		this.inPoint = inPoint;
+		this.inPoint.setMessage(this);
 	}
 	public LifelinePoint getOutPoint() {
 		return outPoint;
 	}
 	public void setOutPoint(LifelinePoint outPoint) {
 		this.outPoint = outPoint;
+		this.outPoint.setMessage(this);
 	}
 	
 }

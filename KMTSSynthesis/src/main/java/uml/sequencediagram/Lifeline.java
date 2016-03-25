@@ -15,6 +15,17 @@ public class Lifeline {
 	private Set<LifelinePoint> points;
 	private Set<Message> messages;
 	
+	public Lifeline(String componentName) {
+		super();
+		currentPosition = 0;
+		points = new HashSet<LifelinePoint>();
+		messages = new HashSet<Message>();
+		Component component = new Component();
+		component.setLabel(componentName);
+		setComponent(component);
+		component.setLifeline(this);
+	}
+
 	public Component getComponent() {
 		return component;
 	}
@@ -100,5 +111,46 @@ public class Lifeline {
 
 	public void setCurrentPosition(int currentPosition) {
 		this.currentPosition = currentPosition;
+	}
+
+	public void clearTimeInfo() {
+		setCurrentPosition(0);
+		messages.clear();
+		points.clear();
+		
+	}
+
+	public LifelinePoint addFromMessage(Message message) {
+		LifelinePoint p = null;
+		if (message != null)
+		{
+			p = new LifelinePoint();
+			p.setPosition(currentPosition);
+			p.setMessage(message);
+			message.setOutPoint(p);
+			addPoint(p);
+		}
+		return p;
+	}
+
+	public LifelinePoint addToMessage(Message message) {
+		LifelinePoint p = null;
+		if (message != null)
+		{
+			p = new LifelinePoint();
+			p.setPosition(currentPosition);
+			p.setMessage(message);
+			message.setInPoint(p);
+			addPoint(p);
+			currentPosition++;
+		}
+		return p;
+	}
+
+	
+	private void addPoint(LifelinePoint p) 
+	{
+		points.add(p);
+		p.setLifeline(this);
 	}	
 }
