@@ -80,4 +80,21 @@ public class SequenceDiagram {
 	public void setCurrentTimePosition(int currentTimePosition) {
 		this.currentTimePosition = currentTimePosition;
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder result = new StringBuilder();
+		result.append("---[SEQUENCE DIAGRAM]----\n");
+		result.append("LABEL:"+label+"\n");
+		result.append("LIFELINES (COMPONENTS): \n");
+		Iterator<Lifeline> it = lifelines.iterator();
+		while (it.hasNext())
+		{
+			result.append(((Lifeline)it.next()).toString()+"\n");
+		}
+		
+		
+		return result.toString();
+	}
 }

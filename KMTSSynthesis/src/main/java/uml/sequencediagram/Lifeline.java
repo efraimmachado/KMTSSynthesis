@@ -152,5 +152,37 @@ public class Lifeline {
 	{
 		points.add(p);
 		p.setLifeline(this);
-	}	
+	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder result = new StringBuilder();
+		result.append("["+getComponent().getLabel()+"]\n");
+		List<LifelinePoint> orderedPoints = getOrderedLifelinePoints();
+		LifelinePoint orderedPoint = null;
+		int drewLifelinePos = 0;
+		int posToDrawBetweenPoints = 0;
+		for (int i = 0; i < orderedPoints.size(); i++)
+		{
+			orderedPoint = orderedPoints.get(i);
+			posToDrawBetweenPoints = orderedPoint.getPosition() - drewLifelinePos;
+			while (posToDrawBetweenPoints > 0)
+			{
+				result.append("    |\n");
+				posToDrawBetweenPoints--;
+				drewLifelinePos++;
+			}
+			String action = orderedPoint.getMessage().getAction().getAction();
+			if (orderedPoint.isOutPoint())
+			{
+				result.append("    |---["+action+"]--->("+orderedPoint.getMessage().getInPoint().getLifeline().getComponent().getLabel()+")\n");
+			}
+			else
+			{
+				result.append("    |<---["+action+"]---("+orderedPoint.getMessage().getOutPoint().getLifeline().getComponent().getLabel()+")\n");
+			}
+		}
+		return result.toString();
+	}
 }

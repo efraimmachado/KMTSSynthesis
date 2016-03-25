@@ -22,11 +22,17 @@ public class MainApp {
 		SequenceDiagram sd = new SequenceDiagram("Teste");
 		Lifeline lifeline1 = new Lifeline("Componente1");
 		Lifeline lifeline2 = new Lifeline("Componente2");
+		Lifeline lifeline3 = new Lifeline("Componente3");
 		sd.addLifeline(lifeline1);
 		sd.addLifeline(lifeline2);
-		Action action = new Action("msg");
-		sd.addMessageBetween(lifeline1, lifeline2, action );
-		sd.toString();
+		sd.addLifeline(lifeline3);
+		Action action1 = new Action("msg1");
+		Action action2 = new Action("msg2");
+		sd.addMessageBetween(lifeline1, lifeline2, action1);
+		sd.addMessageBetween(lifeline1, lifeline3, action1);
+		sd.addMessageBetween(lifeline2, lifeline3, action2);
+		sd.addMessageBetween(lifeline3, lifeline1, action2);
+		System.out.println(sd.toString());
 	}
 	
 	private static void testKMTS()
