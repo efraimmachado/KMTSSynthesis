@@ -1,5 +1,6 @@
 package kmts;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -17,6 +18,8 @@ public class KMTS {
 	
 	public KMTS() {
 		super();
+		states = new HashSet<State>();
+		transitions = new HashSet<Transition>();
 		deterministic = true;
 		allowDuplicatedStateLabels = false;
 	}
@@ -47,6 +50,7 @@ public class KMTS {
 		t.setMustTransition(false);
 		fromState.addOutTrasition(t);
 		toState.addInTrasition(t);
+		transitions.add(t);
 		return t;
 	}
 	
@@ -123,7 +127,7 @@ public class KMTS {
 			result.append("TRANSITIONS:\n");
 			while (it.hasNext())
 			{
-				result.append(((Transition)it.next()).toString()+"\n");
+				result.append(((Transition)it.next()).toString());
 			}
 			result.append("\n");
 		}

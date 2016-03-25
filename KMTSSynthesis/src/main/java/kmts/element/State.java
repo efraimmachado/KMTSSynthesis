@@ -98,6 +98,7 @@ public class State {
 			if (first)
 			{
 				toAppend = ((AtomPreposition)it.next()).toString();
+				first = false;
 			}
 			else
 			{
