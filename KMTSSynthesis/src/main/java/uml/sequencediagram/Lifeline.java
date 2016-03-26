@@ -142,7 +142,6 @@ public class Lifeline {
 			p.setMessage(message);
 			message.setInPoint(p);
 			addPoint(p);
-			currentPosition++;
 		}
 		return p;
 	}
@@ -182,6 +181,7 @@ public class Lifeline {
 			{
 				result.append("    |<---["+action+"]---("+orderedPoint.getMessage().getOutPoint().getLifeline().getComponent().getLabel()+")\n");
 			}
+			drewLifelinePos++;
 		}
 		return result.toString();
 	}

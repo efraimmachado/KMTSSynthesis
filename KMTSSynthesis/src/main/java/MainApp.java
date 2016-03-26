@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import kmts.KMTS;
 import kmts.element.State;
@@ -37,7 +38,7 @@ public class MainApp {
 	
 	private static void testKMTS()
 	{
-		KMTS kmts = new KMTS();
+		KMTS kmts = new KMTS("teste1");
 		State state = new State();
 		state.setLabel("S0");
 		state.addPreposition("p", true);
@@ -59,8 +60,8 @@ public class MainApp {
 		List<String> fileInputs = new ArrayList<String>();
 		fileInputs.add("");
 		Synthesizer synthesizer = new Synthesizer();
-		KMTS generatedKMTS = synthesizer.createKMTSFromSequenceDiagramsWithOCLConstraints(fileInputs);
-		generatedKMTS.toString();
+		Set<KMTS> generatedKMTSs = synthesizer.createKMTSFromSequenceDiagramsWithOCLConstraints(fileInputs);
+		generatedKMTSs.toString();
 	}
 	
 }

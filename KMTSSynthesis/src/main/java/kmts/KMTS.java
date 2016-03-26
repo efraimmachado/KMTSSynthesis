@@ -9,6 +9,7 @@ import kmts.element.Transition;
 
 public class KMTS {
 
+	private String label;
 	private State initialState;
 	private Set<State> states;
 	private Set<Transition> transitions;
@@ -16,7 +17,7 @@ public class KMTS {
 	private boolean allowDuplicatedStateLabels;
 
 	
-	public KMTS() {
+	public KMTS(String label) {
 		super();
 		states = new HashSet<State>();
 		transitions = new HashSet<Transition>();
@@ -98,6 +99,7 @@ public class KMTS {
 	{
 		StringBuilder result = new StringBuilder();
 		result.append("---[KMTS]---\n");
+		result.append("LABEL: "+getLabel()+"\n");
 		if (initialState != null)
 		{
 			result.append("INITIAL STATE: "+initialState.getLabel()+"\n");
@@ -133,5 +135,11 @@ public class KMTS {
 		}
 		result.append("------------\n");
 		return result.toString();
+	}
+	public String getLabel() {
+		return label;
+	}
+	public void setLabel(String label) {
+		this.label = label;
 	}
 }

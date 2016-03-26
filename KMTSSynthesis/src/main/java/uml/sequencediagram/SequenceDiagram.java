@@ -61,11 +61,11 @@ public class SequenceDiagram {
 	private void updateLifelinesPosition() 
 	{
 		Iterator<Lifeline> it = lifelines.iterator();
+		currentTimePosition++;
 		while (it.hasNext())
 		{
 			((Lifeline)it.next()).setCurrentPosition(currentTimePosition);
 		}
-		currentTimePosition++;
 		
 	}
 	
