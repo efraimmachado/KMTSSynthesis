@@ -3,7 +3,11 @@ import java.util.List;
 import java.util.Set;
 
 import kmts.KMTS;
+import kmts.element.AtomPreposition;
 import kmts.element.State;
+import logic.IBooleanExpression;
+import logic.booleanexpression.AndBooleanExpression;
+import logic.booleanexpression.NegBooleanExpression;
 import synthesizer.Synthesizer;
 import uml.sequencediagram.Action;
 import uml.sequencediagram.Lifeline;
@@ -14,10 +18,36 @@ public class MainApp {
 
 	public static void main(String args[])
 	{
-		testKMTS();
-		testSequenceDiagram();
+		//testKMTS();
+		//testSequenceDiagram();
+		testBooleanExpression();
 	}
 	
+	private static void testBooleanExpression()
+	{
+		//(A^B^!C) = FALSE
+		//
+		
+		testBoolExpression("(A^B^!C) = FALSE", true, false, true);
+		testBoolExpression("(A^B^!C) = FALSE", true, null, true);
+		testBoolExpression("(A^B^!C) = FALSE", true, true, false);
+	}
+	
+	private static void testBoolExpression(String resolution, Boolean av, Boolean bv, Boolean cv) {
+		AtomPreposition a, b, c;
+		IBooleanExpression expression;
+		a = new AtomPreposition("A", av);
+		b = new AtomPreposition("B", bv);
+		c = new AtomPreposition("C", cv);
+		
+		System.out.println("---[BOOLEAN EXPRESSION]--");
+		System.out.println("RESOLUTION: "+resolution);
+		expression = new AndBooleanExpression(new AndBooleanExpression(a, b), new NegBooleanExpression(c));
+		System.out.println(expression.toString()+" = "+expression.getValue());
+		System.out.println("------");
+		
+	}
+
 	private static void testSequenceDiagram()
 	{
 		SequenceDiagram sd = new SequenceDiagram("Teste");

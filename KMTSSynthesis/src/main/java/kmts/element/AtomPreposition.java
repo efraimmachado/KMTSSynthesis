@@ -1,6 +1,8 @@
 package kmts.element;
 
-public class AtomPreposition {
+import logic.IBooleanExpression;
+
+public class AtomPreposition implements IBooleanExpression {
 
 	private String literal;
 	private Boolean value;
@@ -28,7 +30,12 @@ public class AtomPreposition {
 	@Override
 	public String toString()
 	{
-		return literal+" = "+(value == null?"?":(value?"T":"F")); 
+		return literal;
+		//return literal+" = "+(value == null?"?":(value?"T":"F")); 
 	}
 	
+	public String toStringWithValue()
+	{
+		return literal+" = "+(value == null?"?":(value?"T":"F"));
+	}
 }
