@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Set;
 
 import kmts.KMTS;
-import kmts.element.AtomicProposition;
 import kmts.element.State;
-import logic.IBooleanExpression;
 import logic.booleanexpression.AndBooleanExpression;
+import logic.booleanexpression.AtomicProposition;
+import logic.booleanexpression.IBooleanExpression;
 import logic.booleanexpression.NegBooleanExpression;
 import synthesizer.Synthesizer;
 import uml.sequencediagram.Action;

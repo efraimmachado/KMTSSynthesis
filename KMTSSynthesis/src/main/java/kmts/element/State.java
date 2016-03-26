@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import logic.booleanexpression.AtomicProposition;
+
 public class State {
 
 	private String label;

@@ -1,8 +1,7 @@
-package logic;
+package logic.booleanexpression;
 
 import java.util.Set;
 
-import kmts.element.AtomicProposition;
 
 public interface IBooleanExpression {
 

@@ -1,10 +1,8 @@
-package kmts.element;
+package logic.booleanexpression;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import logic.IBooleanExpression;
-import logic.booleanexpression.ABooleanExpression;
 
 public class AtomicProposition extends ABooleanExpression implements IBooleanExpression {
 

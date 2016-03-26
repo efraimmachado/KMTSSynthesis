@@ -3,8 +3,6 @@ package logic.booleanexpression;
 import java.util.Iterator;
 import java.util.Set;
 
-import kmts.element.AtomicProposition;
-import logic.IBooleanExpression;
 
 public abstract class ABooleanExpression implements IBooleanExpression {
 
