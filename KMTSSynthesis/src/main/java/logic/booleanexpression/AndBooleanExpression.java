@@ -1,9 +1,13 @@
 package logic.booleanexpression;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import kmts.element.AtomicProposition;
 import logic.IBooleanExpression;
 import logic.ThreeLogicResolver;
 
-public class AndBooleanExpression implements IBooleanExpression {
+public class AndBooleanExpression extends ABooleanExpression implements IBooleanExpression {
 
 	private IBooleanExpression e1;
 	private IBooleanExpression e2;
@@ -24,6 +28,14 @@ public class AndBooleanExpression implements IBooleanExpression {
 	public String toString()
 	{
 		return "("+e1.toString()+"^"+e2.toString()+")";
+	}
+
+	public Set<AtomicProposition> getAtomicPrepositions()
+	{
+		Set<AtomicProposition> result = new HashSet<AtomicProposition>();
+		result.addAll(e1.getAtomicPrepositions());
+		result.addAll(e2.getAtomicPrepositions());
+		return result;
 	}
 
 }

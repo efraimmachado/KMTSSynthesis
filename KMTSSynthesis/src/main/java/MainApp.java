@@ -1,9 +1,10 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import kmts.KMTS;
-import kmts.element.AtomPreposition;
+import kmts.element.AtomicProposition;
 import kmts.element.State;
 import logic.IBooleanExpression;
 import logic.booleanexpression.AndBooleanExpression;
@@ -29,23 +30,31 @@ public class MainApp {
 		//
 		
 		testBoolExpression("(A^B^!C) = FALSE", true, false, true);
-		testBoolExpression("(A^B^!C) = FALSE", true, null, true);
-		testBoolExpression("(A^B^!C) = FALSE", true, true, false);
+		testBoolExpression("(A^B^!C) = NULL?", true, null, true);
+		testBoolExpression("(A^B^!C) = TRUE", true, true, false);
 	}
 	
 	private static void testBoolExpression(String resolution, Boolean av, Boolean bv, Boolean cv) {
-		AtomPreposition a, b, c;
+		AtomicProposition a, b, c;
 		IBooleanExpression expression;
-		a = new AtomPreposition("A", av);
-		b = new AtomPreposition("B", bv);
-		c = new AtomPreposition("C", cv);
+		a = new AtomicProposition("A", av);
+		b = new AtomicProposition("B", bv);
+		c = new AtomicProposition("C", cv);
 		
 		System.out.println("---[BOOLEAN EXPRESSION]--");
 		System.out.println("RESOLUTION: "+resolution);
 		expression = new AndBooleanExpression(new AndBooleanExpression(a, b), new NegBooleanExpression(c));
+		System.out.println("AP VALUES:\n"+ expression.toStringAtomicPropositionsValue());
 		System.out.println(expression.toString()+" = "+expression.getValue());
 		System.out.println("------");
-		
+		System.out.println("UPDATE VALUE A TO: "+false);
+		Set<AtomicProposition> propositionsWithNewValues = new HashSet<AtomicProposition>();
+		a = new AtomicProposition("A", false);
+		propositionsWithNewValues.add(a);
+		expression.updateAtomicPropositionValues(propositionsWithNewValues);
+		System.out.println("AP VALUES:\n"+ expression.toStringAtomicPropositionsValue());
+		System.out.println(expression.toString()+" = "+expression.getValue());
+		System.out.println("------");
 	}
 
 	private static void testSequenceDiagram()

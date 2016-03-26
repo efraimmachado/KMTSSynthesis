@@ -1,13 +1,17 @@
 package kmts.element;
 
-import logic.IBooleanExpression;
+import java.util.HashSet;
+import java.util.Set;
 
-public class AtomPreposition implements IBooleanExpression {
+import logic.IBooleanExpression;
+import logic.booleanexpression.ABooleanExpression;
+
+public class AtomicProposition extends ABooleanExpression implements IBooleanExpression {
 
 	private String literal;
 	private Boolean value;
 	
-	public AtomPreposition(String literal, Boolean value) {
+	public AtomicProposition(String literal, Boolean value) {
 		super();
 		this.literal = literal;
 		this.value = value;
@@ -37,5 +41,12 @@ public class AtomPreposition implements IBooleanExpression {
 	public String toStringWithValue()
 	{
 		return literal+" = "+(value == null?"?":(value?"T":"F"));
+	}
+	
+	public Set<AtomicProposition> getAtomicPrepositions()
+	{
+		Set<AtomicProposition> result = new HashSet<AtomicProposition>();
+		result.add(this);
+		return result;
 	}
 }

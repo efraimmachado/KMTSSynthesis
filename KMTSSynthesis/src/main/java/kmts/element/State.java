@@ -7,7 +7,7 @@ import java.util.Set;
 public class State {
 
 	private String label;
-	private Set<AtomPreposition> prepositions;
+	private Set<AtomicProposition> prepositions;
 	private Set<Transition> inTransitions;
 	private Set<Transition> outTransitions;
 
@@ -16,12 +16,12 @@ public class State {
 		super();
 		inTransitions = new HashSet<Transition>();
 		outTransitions = new HashSet<Transition>();
-		prepositions = new HashSet<AtomPreposition>();
+		prepositions = new HashSet<AtomicProposition>();
 	}
 	
 	public void addPreposition(String literal, Boolean value)
 	{
-		AtomPreposition p = new AtomPreposition(literal, value);
+		AtomicProposition p = new AtomicProposition(literal, value);
 		if (!prepositions.contains(p))
 		{
 			prepositions.add(p);
@@ -30,7 +30,7 @@ public class State {
 	
 	public void updatePrepositionValue(String literal, Boolean value)
 	{
-		AtomPreposition p = getPreposition(literal);
+		AtomicProposition p = getPreposition(literal);
 		if (p != null)
 		{
 			p.setValue(value);
@@ -40,7 +40,7 @@ public class State {
 	
 	public Boolean getPrepositionValue(String literal)
 	{
-		AtomPreposition p = getPreposition(literal);
+		AtomicProposition p = getPreposition(literal);
 		if (p != null)
 		{
 			return p.getValue();
@@ -48,11 +48,11 @@ public class State {
 		throw new RuntimeException("STATE DOESN'T HAVE LITERAL "+literal);
 	}
 	
-	private AtomPreposition getPreposition(String literal) {
-		Iterator<AtomPreposition> it = prepositions.iterator();
+	private AtomicProposition getPreposition(String literal) {
+		Iterator<AtomicProposition> it = prepositions.iterator();
 		while (it.hasNext())
 		{
-			AtomPreposition p = (AtomPreposition)it.next();
+			AtomicProposition p = (AtomicProposition)it.next();
 			if (p.getLiteral().equals(p))
 			{
 				return p;
@@ -61,7 +61,7 @@ public class State {
 		return null;
 	}
 
-	public Set<AtomPreposition> getPrepositions() {
+	public Set<AtomicProposition> getPrepositions() {
 		return prepositions;
 	}
 	
@@ -90,19 +90,19 @@ public class State {
 	{
 		StringBuilder result = new StringBuilder();
 		result.append(getLabel()+ " (");
-		Iterator<AtomPreposition> it = prepositions.iterator();
+		Iterator<AtomicProposition> it = prepositions.iterator();
 		boolean first = true;
 		String toAppend;
 		while(it.hasNext())
 		{
 			if (first)
 			{
-				toAppend = ((AtomPreposition)it.next()).toString();
+				toAppend = ((AtomicProposition)it.next()).toString();
 				first = false;
 			}
 			else
 			{
-				toAppend = ", "+((AtomPreposition)it.next()).toString() ;
+				toAppend = ", "+((AtomicProposition)it.next()).toString() ;
 			}
 			result.append(toAppend);
 		}
