@@ -8,8 +8,7 @@ import uml.ocl.OCLRule;
 public class Action {
 
 	private String action;
-	private Set<OCLRule> oclPreconditionRules;
-	
+	private Set<OCLRule> oclPreconditionRules;	
 	private Set<OCLRule> oclPosconditionRules;
 
 	public Action(String action) {

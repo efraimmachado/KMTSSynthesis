@@ -56,5 +56,4 @@ public class Synthesizer {
 		UMLReader umlReader = new UMLReader();
 		return umlReader.extractSequenceDiagramsWithOCL(fileInputs);
 	}
-
 }

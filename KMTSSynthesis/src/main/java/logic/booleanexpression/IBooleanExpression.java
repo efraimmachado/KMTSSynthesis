@@ -13,4 +13,13 @@ public interface IBooleanExpression {
 
 	public void updateAtomicPropositionValues(
 			Set<AtomicProposition> propositionsWithNewValues);
+
+	public boolean isTrue();
+	
+	public boolean isFalse();
+	
+	public boolean isUndefined();
+
+	public IBooleanExpression createCopiedExpression();
+	
 }

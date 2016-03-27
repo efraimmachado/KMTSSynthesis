@@ -36,4 +36,10 @@ public class AndBooleanExpression extends ABooleanExpression implements IBoolean
 		return result;
 	}
 
+	@Override
+	public IBooleanExpression createCopiedExpression() 
+	{
+		return new AndBooleanExpression(e1.createCopiedExpression(), e2.createCopiedExpression());
+	}
+
 }

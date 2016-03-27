@@ -32,4 +32,11 @@ public class NegBooleanExpression extends ABooleanExpression implements IBoolean
 		result.addAll(e.getAtomicPrepositions());
 		return result;
 	}
+	
+	@Override
+	public IBooleanExpression createCopiedExpression() 
+	{
+		return new NegBooleanExpression(e.createCopiedExpression());
+	}
+
 }

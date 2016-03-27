@@ -43,4 +43,25 @@ public abstract class ABooleanExpression implements IBooleanExpression {
 			}
 		}
 	}
+	
+	@Override
+	public boolean isTrue()
+	{
+		Boolean result = getValue();
+		return result != null && result;
+	}
+	
+	@Override
+	public boolean isFalse()
+	{
+		Boolean result = getValue();
+		return result != null && !result;
+	}
+	
+	@Override
+	public boolean isUndefined()
+	{
+		return getValue() == null;
+	}
+
 }

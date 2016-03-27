@@ -47,4 +47,10 @@ public class AtomicProposition extends ABooleanExpression implements IBooleanExp
 		result.add(this);
 		return result;
 	}
+
+	@Override
+	public IBooleanExpression createCopiedExpression() 
+	{
+		return new AtomicProposition(getLiteral(), getValue());
+	}
 }

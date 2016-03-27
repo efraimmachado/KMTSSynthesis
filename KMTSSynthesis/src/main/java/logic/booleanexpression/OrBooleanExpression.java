@@ -36,4 +36,10 @@ public class OrBooleanExpression extends ABooleanExpression implements IBooleanE
 		return result;
 	}
 
+	@Override
+	public IBooleanExpression createCopiedExpression() 
+	{
+		return new OrBooleanExpression(e1.createCopiedExpression(), e2.createCopiedExpression());
+	}
+
 }
