@@ -1,14 +1,17 @@
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import kmts.KMTS;
 import kmts.element.State;
+import logic.ThreeLogicResolver;
 import logic.booleanexpression.AndBooleanExpression;
 import logic.booleanexpression.AtomicProposition;
 import logic.booleanexpression.IBooleanExpression;
 import logic.booleanexpression.NegBooleanExpression;
+import logic.booleanexpression.OrBooleanExpression;
 import synthesizer.Synthesizer;
 import uml.sequencediagram.Action;
 import uml.sequencediagram.Lifeline;
@@ -21,9 +24,81 @@ public class MainApp {
 	{
 		//testKMTS();
 		//testSequenceDiagram();
-		testBooleanExpression();
+		//testBooleanExpression();
+		testValuationToExpression();
+		//testPermutation();
 	}
 	
+	private static void testValuationToExpression() 
+	{
+		AtomicProposition a, b, c;
+		IBooleanExpression expression;
+		a = new AtomicProposition("A", false);
+		b = new AtomicProposition("B", false);
+		c = new AtomicProposition("C", false);
+		
+		System.out.println("---[BOOLEAN EXPRESSION SOLUTIONS]--");
+		//expression = new AndBooleanExpression(new AndBooleanExpression(a, b), new NegBooleanExpression(c));
+		expression = new OrBooleanExpression(new OrBooleanExpression(a, b), c);
+		System.out.println(expression.toString());
+		System.out.println("SOLUTIONS:");
+		Set<Set<AtomicProposition>> result = ThreeLogicResolver.getValuationsSatisfiesExpression(expression);
+		Iterator<Set<AtomicProposition>> it = result.iterator();
+		Iterator<AtomicProposition> innerIt;
+		AtomicProposition p;
+		int solutionNumber = 1;
+		while(it.hasNext())
+		{
+			innerIt = it.next().iterator();
+			System.out.println("SOLUTION["+solutionNumber+"]:");
+			while(innerIt.hasNext())
+			{
+				p = innerIt.next();
+				System.out.println(p.toStringWithValue());
+			}
+			solutionNumber++;
+		}
+		System.out.println("------");
+		
+	}
+
+	private static void testPermutation() 
+	{
+ 	    char[] possibleValues = {'T', 'F', '?'};
+        int numberOfPossibleValues = possibleValues.length;
+        int numberOfAtomicPropositions = 3; 
+        int i[] = new int[numberOfAtomicPropositions];
+        int numberOfCombinations = (int) Math.pow(numberOfPossibleValues,numberOfAtomicPropositions);
+        char[][] result = new char[numberOfCombinations][numberOfAtomicPropositions];
+        int possibleValueIndex = 0;
+        for(int j=0; j<Math.pow(numberOfPossibleValues,numberOfAtomicPropositions); j++)
+        {
+        	possibleValueIndex=0;
+        	while(possibleValueIndex<numberOfAtomicPropositions)
+        	{
+        		System.out.print(possibleValues[i[possibleValueIndex]] + " ");
+        		result[j][possibleValueIndex] = possibleValues[i[possibleValueIndex]]; 
+        		possibleValueIndex++;
+        	}
+        	System.out.println();
+        	possibleValueIndex = 0;
+        	while(possibleValueIndex<numberOfAtomicPropositions)
+        	{
+        		if(i[possibleValueIndex]<numberOfPossibleValues-1)
+        		{
+        			i[possibleValueIndex]++;
+        			break;
+        		}
+        		else
+        		{
+        			i[possibleValueIndex]=0;
+        		}
+        		possibleValueIndex++;
+            }
+        }
+        System.out.println("hehe");
+	 }
+
 	private static void testBooleanExpression()
 	{
 		//(A^B^!C) = FALSE
