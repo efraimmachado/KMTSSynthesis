@@ -6,6 +6,7 @@ import java.util.Set;
 
 import kmts.KMTS;
 import kmts.element.State;
+import kmts.element.Transition;
 import logic.ThreeLogicResolver;
 import logic.booleanexpression.AndBooleanExpression;
 import logic.booleanexpression.AtomicProposition;
@@ -25,8 +26,9 @@ public class MainApp {
 		//testKMTS();
 		//testSequenceDiagram();
 		//testBooleanExpression();
-		testValuationToExpression();
+		//testValuationToExpression();
 		//testPermutation();
+                testStateToString();
 	}
 	
 	private static void testValuationToExpression() 
@@ -178,4 +180,21 @@ public class MainApp {
 		generatedKMTSs.toString();
 	}
 	
+        //Testa o metodo 'ToString' da class 'State'
+        private static void testStateToString()
+        {
+                State s = new State();
+                s.setLabel("Q1");
+                Transition t = new Transition();
+                t.setAction("A");
+                s.addInTrasition(t);
+                Transition t1 = new Transition();
+                t1.setAction("B");
+                s.addOutTrasition(t1);
+                s.addPreposition("X", Boolean.TRUE);
+                s.addPreposition("Y", Boolean.FALSE);
+                s.addPreposition("Z", Boolean.TRUE);
+                s.addPreposition("W", Boolean.FALSE);
+                System.out.println(s.toString());
+        }
 }
