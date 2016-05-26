@@ -187,6 +187,7 @@ public class MainApp {
                 s.setLabel("Q1");
                 Transition t = new Transition();
                 t.setAction("A");
+                t.setMustTransition(true);
                 s.addInTrasition(t);
                 Transition t1 = new Transition();
                 t1.setAction("B");
@@ -195,6 +196,17 @@ public class MainApp {
                 s.addPreposition("Y", Boolean.FALSE);
                 s.addPreposition("Z", Boolean.TRUE);
                 s.addPreposition("W", Boolean.FALSE);
+                State s1 = new State();
+                s1.addPreposition("X", Boolean.FALSE);
+                s1.addPreposition("Y", Boolean.TRUE);
+                s1.addPreposition("Z", Boolean.FALSE);
+                s1.addPreposition("W", Boolean.TRUE);
+                s1.setLabel("Q2");
+                s1.addInTrasition(t1);
+                s1.addOutTrasition(t);
                 System.out.println(s.toString());
+                System.out.println(s1.toString());
+                System.out.println(t.toString());
+                System.out.println(t1.toString());
         }
 }
