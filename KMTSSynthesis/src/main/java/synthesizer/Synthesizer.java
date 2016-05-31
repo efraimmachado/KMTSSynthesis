@@ -26,7 +26,13 @@ public class Synthesizer {
 	}
 
 	private Set<KMTS> createKMTSsFromComponentData(
-			Set<ComponentData> extractedComponentData) 
+			Set<ComponentData> extractedCompoIterator<ComponentData> it = extractedComponentData.iterator();
+		KMTS kmts = null;
+		while(it.hasNext())
+		{
+			kmts = createKMTSFromComponentData(((ComponentData)it.next()));
+			result.add(kmts);
+		}nentData) 
 	{
 		Set<KMTS> result = new HashSet<KMTS>();
 		Iterator<ComponentData> it = extractedComponentData.iterator();
