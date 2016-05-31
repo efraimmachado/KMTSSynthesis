@@ -41,8 +41,7 @@ public class MainApp {
 		
 		System.out.println("---[BOOLEAN EXPRESSION SOLUTIONS]--");
 		//expression = new AndBooleanExpression(new AndBooleanExpression(a, b), new NegBooleanExpression(c));
-		//expression = new OrBooleanExpression(new OrBooleanExpression(a, b), c);
-		expression = a;
+		expression = new OrBooleanExpression(new OrBooleanExpression(a, b), c);
 		System.out.println(expression.toString());
 		System.out.println("SOLUTIONS:");
 		Set<Set<AtomicProposition>> result = ThreeLogicResolver.getValuationsSatisfiesExpression(expression);
