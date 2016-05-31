@@ -10,6 +10,13 @@ import synthesizer.ComponentData;
 
 public class KMTSCreator {
 
+        //Não tem construtor nem atributos
+    
+        //Recebe um componente de um diagrama de sequencia
+        //Cria um KMTS.
+        //Rotula o KMTS com o rotulo do componente.
+        //Cria o estado inicial do KMTS baseado no componente.
+        //Retorna o KMTS criado.
 	public KMTS createKMTSFromComponentData(ComponentData componentData) 
 	{
 		KMTS result = new KMTS(componentData.getComponent().getLabel());
@@ -18,6 +25,7 @@ public class KMTSCreator {
 		return result;
 	}
 
+        //!!Não entendi direito!!
 	private Set<State> getStatesWhenExpressionIsValid(KMTS kmts, IBooleanExpression expression)
 	{
 		Set<State> result = new HashSet<State>();
@@ -38,6 +46,7 @@ public class KMTSCreator {
 		return result;
 	}
 	
+        //Definir o que faz e como faz
 	private State createInitialState(ComponentData componentData) {
 		// TODO Auto-generated method stub
 		return null;
