@@ -13,14 +13,14 @@ import uml.sequencediagram.SequenceDiagram;
 import uml.sequencediagram.SequenceDiagramReader;
 
 public class UMLReader {
-
-	public UMLReader() {
+    
+        private SequenceDiagramReader sdReader;
+	
+        public UMLReader() {
 		super();
 		sdReader = new SequenceDiagramReader();
 	}
 
-	private SequenceDiagramReader sdReader;
-	
 	public SequenceDiagram extractSequenceDiagramWithOCL(String fileInput)
 	{
 		return null;
@@ -47,7 +47,7 @@ public class UMLReader {
 			//itera sobre o conjunto dos diagramas de sequencia
 			Iterator<SequenceDiagram> it = extractedSDwithOCL.iterator();
 			while(it.hasNext())
-			{
+                        {
 				//junta as informacoes extraidas de cada diagrama com as informacoes que ja foram extraidas
 				mergeComponentsData(result, extractComponentsData(it.next()));
 			}
@@ -77,9 +77,22 @@ public class UMLReader {
 	}
 
 	private ComponentData mergeComponentData(ComponentData componentData,
-			ComponentData extractedComponentData) {
-		// TODO Auto-generated method stub
-		return null;
+			ComponentData extractedComponentData) 
+        {
+		ComponentData result = componentData;
+                //!!Não muito certo sobre comferir se result == null!!
+                if(extractedComponentData != null && result != null)
+                {
+                        result.getExpectedActions().addAll(extractedComponentData.getExpectedActions());
+                        result.getProvidedActions().addAll(extractedComponentData.getProvidedActions());
+                        result.getScopedVariables().addAll(extractedComponentData.getScopedVariables());
+                        result.getSiginificantVariables().addAll(extractedComponentData.getSiginificantVariables());
+                } 
+                else 
+                {
+                        result = extractedComponentData;
+                }
+		return result;
 	}
 
 	private Set<ComponentData> extractComponentsData(

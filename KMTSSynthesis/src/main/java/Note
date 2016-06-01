@@ -45,7 +45,7 @@ LOCAL DE DISCUÇÃO SOBRE O PROJETO.
 
         5? (talvez antes da etapa 4, talvez nem exista)
         
-            -Refinar o KMTS usando propagação de velor de variaveis (parecido com o que foik feito nas anotações dos SDs)
+            -Refinar o KMTS usando propagação de velor de variaveis (parecido com o que foi feito nas anotações dos SDs)
                 *Verificar as precondições de todas os eventos que saem e 
                  as poscondições dos eventos que chegam no estado 
                  para definir os valores que estam indefinidos na medida do possivel 
