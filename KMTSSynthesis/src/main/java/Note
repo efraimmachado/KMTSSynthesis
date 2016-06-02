@@ -45,7 +45,26 @@ LOCAL DE DISCUÇÃO SOBRE O PROJETO.
 
         5? (talvez antes da etapa 4, talvez nem exista)
         
-            -Refinar o KMTS usando propagação de velor de variaveis (parecido com o que foik feito nas anotações dos SDs)
+            -Refinar o KMTS usando propagação de velor de variaveis (parecido com o que foi feito nas anotações dos SDs)
                 *Verificar as precondições de todas os eventos que saem e 
                  as poscondições dos eventos que chegam no estado 
                  para definir os valores que estam indefinidos na medida do possivel 
+
+
+    ENCONTRANDO AS VARIAVEIS DO ESCOPO
+
+        Qual a ideia:
+            -A ideia do(s) metodo(s) é !?, depois de extrair todas as componentDatas,?! 
+             criar um conjunto com todas as mensagens do sistema. 
+            -Para cada componentData vamos adicionar a unconjunto de variaveis
+             todas as variaveis que aparecem como pre ou pos condição das mensagens
+             deste CD(ComponenteData).
+            -Depois vamos conferir as variaveis do conjunto que têm seus valores 
+             modificados em alguma mensagens que não interage com o componente do 
+             CD estraimos o conjunto de variaveis e, se for o caso, removemos esta 
+             variavel do conjunto. 
+            -No final as variaveis que sobrarem no conjunto são as variaveis do escopo. 
+        
+        O que "já foi feito"
+            -O metodo em SequenceDiagramReader que retorna um conjunto com as mensagens de um SD.
+            -O metodo em UMLReader que retorna um conjunto com as mansagens de um conjunto de SDs.

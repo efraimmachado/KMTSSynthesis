@@ -1,7 +1,9 @@
 package uml.sequencediagram;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+import logic.booleanexpression.AtomicProposition;
 import logic.booleanexpression.IBooleanExpression;
 
 import uml.ocl.OCLRule;
@@ -74,5 +76,30 @@ public class Action {
             {
                 System.out.println("Está expressão já existe como poscondição da ação.");
             }
+        }
+        
+        //Returna as variaveis usadas nas precondições 
+        public Set<AtomicProposition> getPreconditionRulesAtomicProposition()
+        {
+                Set<AtomicProposition> result = new HashSet<AtomicProposition>();
+                Iterator<OCLRule> it;
+                it = getOclPreconditionRules().iterator();
+                while(it.hasNext())
+                {
+                        result.addAll(it.next().getAtomicProposition());
+                }
+                return result;
+        }
+        
+        //Returna as variaveis usadas nas poscondições
+        public Set<AtomicProposition> getPosconditionRulesAtomicProposition()
+        {
+                Set<AtomicProposition> result = new HashSet<AtomicProposition>();
+                Iterator<OCLRule> it = getOclPosconditionRules().iterator();
+                while(it.hasNext())
+                {
+                        result.addAll(it.next().getAtomicProposition());
+                }
+                return result;
         }
 }

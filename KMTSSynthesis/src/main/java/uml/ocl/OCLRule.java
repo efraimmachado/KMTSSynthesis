@@ -1,5 +1,8 @@
 package uml.ocl;
 
+import java.util.HashSet;
+import java.util.Set;
+import logic.booleanexpression.AtomicProposition;
 import logic.booleanexpression.IBooleanExpression;
 import uml.sequencediagram.Action;
 
@@ -24,5 +27,12 @@ public class OCLRule {
 	public void setExpression(IBooleanExpression expression) {
 		this.expression = expression;
 	}
-	
+        
+        //Retorna as variaveis usadas na regra
+        public Set<AtomicProposition> getAtomicProposition() 
+        {
+                Set<AtomicProposition> result = new HashSet<AtomicProposition>();
+                result = expression.getAtomicPrepositions();
+                return result;
+        }	
 }
