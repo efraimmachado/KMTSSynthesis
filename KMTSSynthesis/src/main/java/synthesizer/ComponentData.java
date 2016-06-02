@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import logic.booleanexpression.AtomicProposition;
+import uml.ocl.OCLRule;
 import uml.sequencediagram.Action;
 import uml.sequencediagram.Component;
 import uml.sequencediagram.Message;
@@ -32,14 +33,24 @@ public class ComponentData {
 		this.component = component;
 	}
 	
+        //Faz a união deste componentData com o componentData dado
+        public void mergewithComponentData(ComponentData componentData)
+        {
+                this.getExpectedActions().addAll(componentData.getExpectedActions());
+                this.getProvidedActions().addAll(componentData.getProvidedActions());
+                this.getScopedVariables().addAll(componentData.getScopedVariables());
+                this.getSiginificantVariables().addAll(componentData.getSiginificantVariables());
+
+        }
+        
         //Atualiza os conjuntos de ações.
         //Atualiza os conjuntos de variaveis.
         public void updateComponenteData()
         {
-                this.updateProvidedEvents();
-                this.updateExpectedEvents();
-                this.updateScopedVariables();
-                this.updateSignificantVariables();
+                updateProvidedEvents();
+                updateExpectedEvents();
+                updateScopedVariables();
+                updateSignificantVariables();
         }
         
         //Retorna o componente ao qual o componente data esta ligado
@@ -102,7 +113,7 @@ public class ComponentData {
                                 result.add(it.next().getAction());
                         }
                 }
-                this.setProvidedActions(result);
+                setProvidedActions(result);
         }
         
         //Atualiza o conjunto de eventos expected baseado nas mensagens do componente
@@ -115,7 +126,7 @@ public class ComponentData {
                                 result.add(it.next().getAction());
                         }
                 }
-                this.setExpectedActions(result);
+                setExpectedActions(result);
         }
         
         //Atualiza o conjunto de variaveis do escopo baseado nas mensagens do componente
@@ -125,6 +136,24 @@ public class ComponentData {
         
         //Atualiza o conjunto de variaveis significantes baseado nas mensagens do componente
         private void updateSignificantVariables() {
-            //TODO
+                Set<AtomicProposition> result = new HashSet<AtomicProposition>();
+                if(getExpectedActions() != null)
+                {
+                        Iterator<Action> it = getExpectedActions().iterator();
+                        while(it.hasNext())
+                        {
+                                result.addAll(it.next().getPreconditionRulesAtomicProposition());
+                        }
+                }
+                setSignificantVariables(result);
         }
+
+        //Uso provavel em SequenceDiagramReader atravez de 'contains'
+        
+        /*
+        public boolean equals(ComponentData obj) 
+        {
+                String objlabel = obj.getComponent().getLabel();
+                return this.component.getLabel().equals(objlabel);
+        }*/
 }

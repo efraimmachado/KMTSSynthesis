@@ -9,6 +9,7 @@ import java.util.Set;
 
 import synthesizer.ComponentData;
 import uml.sequencediagram.Component;
+import uml.sequencediagram.Message;
 import uml.sequencediagram.SequenceDiagram;
 import uml.sequencediagram.SequenceDiagramReader;
 
@@ -83,10 +84,7 @@ public class UMLReader {
                 //!!Não muito certo sobre comferir se result == null!!
                 if(extractedComponentData != null && result != null)
                 {
-                        result.getExpectedActions().addAll(extractedComponentData.getExpectedActions());
-                        result.getProvidedActions().addAll(extractedComponentData.getProvidedActions());
-                        result.getScopedVariables().addAll(extractedComponentData.getScopedVariables());
-                        result.getSiginificantVariables().addAll(extractedComponentData.getSiginificantVariables());
+                        result.mergewithComponentData(extractedComponentData);
                 } 
                 else 
                 {
@@ -95,6 +93,7 @@ public class UMLReader {
 		return result;
 	}
 
+        
 	private Set<ComponentData> extractComponentsData(
 			SequenceDiagram sequenceDiagram) 
 	{
@@ -103,5 +102,19 @@ public class UMLReader {
 		return result;
 	}
 	
-	
+        //Extrai todas as mensagens do conjunto de SDs dado e retorna o conjunto com elas. 
+	private Set<Message> extractAllMessages(
+			Set<SequenceDiagram> extractedSDwithOCL) 
+	{
+                Set<Message> result = new HashSet<Message>();
+                if(extractedSDwithOCL != null)
+                {
+                        Iterator<SequenceDiagram> it = extractedSDwithOCL.iterator();
+                        while(it.hasNext())
+                        {
+                                result.addAll(sdReader.extractAllMessages(it.next));
+                        }
+                }
+                return result;
+        }
 }
