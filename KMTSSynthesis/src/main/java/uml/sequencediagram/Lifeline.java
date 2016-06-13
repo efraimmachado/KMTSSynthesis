@@ -10,6 +10,7 @@ import java.util.Set;
 
 public class Lifeline {
 
+        
 	private int currentPosition;
 	private Component component;
 	private Set<LifelinePoint> points;

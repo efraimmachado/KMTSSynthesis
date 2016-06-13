@@ -1,0 +1,70 @@
+
+
+
+LOCAL DE DISCUÇÃO SOBRE O PROJETO.
+
+
+    GUIA E PASSOS DO PROJETO
+
+        1
+
+            -Identificar e classificar os eventos e as variaveis para cada componente.
+                *Identificar as menssagens no componente e classifica como eventos 'espected' 
+                 se a mensagen chega no componente ou 'provided' se a mensagem sai do componente. 
+                *Identificar as variaveis significantes baseda nas precondicões das mansagens que saem do componente
+                 e as variaveis do escopo olhando o SD como um todo .
+            -Aplicar, baseado nas variaveis ja encontradas, o pseudo-codigo de Krka para criar o component-level contraints.
+
+        2
+
+            -PROBLEMA: entender a de?nição 5 do capitulo 2.2 da tese de Krka.
+
+            -Criar um KMTS inicial.
+                *Definir o que é um estado inicial ou como encontar ele atravez do SD.
+                *Gerar o KMTS apartir do estado inicial.
+                    ->Definir como as indefinições iram aparecer. 
+                      Possibilidade: fazer aceitando, durantes está etapa, 
+                      variaveis indefinidas nos estados como true e false ao mesmo tempo.
+                *PRECISA DE TESTE: (Hipotese)Sendo MTS Mc o MTS criado pelo código de Krka e 
+                 KMTS Kc o KMTS que vamos criar a partir dos mesmos SD então Mc é contido/iqual a Kc
+        
+        3
+
+            -Criar as anotações do SD.
+                *Como os componentes ja tem a sua propria linha da vida e suas mensagens e, 
+                 após a primeira etapa, já tem seus conjunto de variaveis então imagino qua 
+                 não seja necessario olhar no nivel geral do SD.
+                *Como as anotações no SD exploram melhor as condições para que os eventos ocorram, 
+                 Podemos fazer iqual a Krka.
+
+        4
+        
+            -Criar um KMTS baseado nas anotações do SD e no KMTS inicial.
+                *Sendo a hipotese anterior (etapa 2) correta, seguir o mesmo processo de Krka na quarta etapa.
+                *Seguir o SD analisando que eventos ocorrem que que estado e tornando estes eventos em 'must'
+
+        5? (talvez antes da etapa 4, talvez nem exista)
+        
+            -Refinar o KMTS usando propagação de velor de variaveis (parecido com o que foi feito nas anotações dos SDs)
+                *Verificar as precondições de todas os eventos que saem e 
+                 as poscondições dos eventos que chegam no estado 
+                 para definir os valores que estam indefinidos na medida do possivel 
+
+
+    ENCONTRANDO AS VARIAVEIS DO ESCOPO
+
+        Qual a ideia:
+            -A ideia do(s) metodo(s) é !?, depois de extrair todas as componentDatas,?! 
+             criar um conjunto com todas as mensagens do sistema. 
+            -Para cada componentData vamos adicionar a unconjunto de variaveis
+             todas as variaveis que aparecem como pre ou pos condição das mensagens
+             deste CD(ComponenteData).
+            -Depois vamos conferir as variaveis do conjunto que têm seus valores 
+             modificados em alguma mensagens que não interage com o componente do 
+             CD estraimos o conjunto de variaveis e, se for o caso, removemos esta 
+             variavel do conjunto. 
+            -No final as variaveis que sobrarem no conjunto são as variaveis do escopo. 
+        
+        O que "já foi feito"
+            -O metodo em SequenceDiagramReader que retorna um conjunto com as mensagens de um SD.
+            -O metodo em UMLReader que retorna um conjunto com as mansagens de um conjunto de SDs.

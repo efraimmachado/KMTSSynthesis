@@ -152,6 +152,7 @@ public class State {
 	}
 
         //Adiciona uma transição da saida.
+        //Adiciona à transição este estado como ponto de partida.
 	public void addOutTrasition(Transition t) 
 	{
 		if (t != null)
@@ -167,6 +168,7 @@ public class State {
 	}
 
         //Adiciona uma transição de chegada.
+        //Adiciona à transição este estado como ponto de chegada.
 	public void addInTrasition(Transition t) 
 	{
 		if (t != null)
