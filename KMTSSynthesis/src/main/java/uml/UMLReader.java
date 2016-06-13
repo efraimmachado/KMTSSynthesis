@@ -112,7 +112,7 @@ public class UMLReader {
                         Iterator<SequenceDiagram> it = extractedSDwithOCL.iterator();
                         while(it.hasNext())
                         {
-                                result.addAll(sdReader.extractAllMessages(it.next));
+                                result.addAll(sdReader.extractAllMessages(it.next()));
                         }
                 }
                 return result;

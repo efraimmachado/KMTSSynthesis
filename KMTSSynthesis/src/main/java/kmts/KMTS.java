@@ -6,6 +6,7 @@ import java.util.Set;
 
 import kmts.element.State;
 import kmts.element.Transition;
+import logic.booleanexpression.AtomicProposition;
 
 public class KMTS {
 
@@ -69,9 +70,9 @@ public class KMTS {
 		t.setAction(action);
 		t.setFromState(fromState);
 		t.setToState(toState);
-		t.setMustTransition(false);
 		fromState.addOutTrasition(t);
 		toState.addInTrasition(t);
+		t.setMustTransition(false);
 		transitions.add(t);
 		return t;
 	}
@@ -187,4 +188,143 @@ public class KMTS {
 	public void setLabel(String label) {
 		this.label = label;
 	}
+
+	public Set<String> getActions() {
+		Set<String> result = new HashSet<String>();
+		if (transitions != null)
+		{
+			Iterator<Transition> it = transitions.iterator();
+			while(it.hasNext())
+			{
+				result.add(it.next().getAction());
+			}
+		}
+		return result;
+	}
+	
+	public KMTS clone()
+	{
+		KMTS result = new KMTS(label+"'");
+		result.addInitialState(getInitialState().clone());
+		Iterator<State> itStates = getStates().iterator();
+		State state;
+		while(itStates.hasNext())
+		{
+			state = itStates.next();
+			if (!state.equals(initialState))
+			{
+				result.addState(state.clone());
+			}
+		}
+		Iterator<Transition> itTransitions = getTransitions().iterator();
+		Transition transition;
+		State from, to;
+		while(itTransitions.hasNext())
+		{
+			transition = itTransitions.next();
+			from = result.getStateByLabel(transition.getFromState().getLabel());
+			to = result.getStateByLabel(transition.getToState().getLabel());
+			if (transition.isMustTransition())
+			{
+				result.addMustTransitionBetween(from, to, transition.getAction());
+			}
+			else
+			{
+				result.addMayTransitionBetween(from, to, transition.getAction());
+			}
+		}
+		
+		return result;
+	}
+
+	public void removeTransition(Transition transition) 
+	{
+		transitions.remove(transition);
+		transition.getFromState().removeTransition(transition);
+		transition.getToState().removeTransition(transition);
+	}
+
+	public void normalize() {
+		Set<String> allLiterals = getLiterals();
+		Iterator<State> it = states.iterator();
+		State state;
+		while(it.hasNext())
+		{
+			state = it.next();
+			Iterator<String> itProp = allLiterals.iterator();
+			String literal;
+			while(itProp.hasNext())
+			{
+				literal = itProp.next();
+				if (!state.hasLiteral(literal))
+				{
+					state.addPreposition(literal, null);
+				}
+			}
+			
+		}
+		
+	}
+	
+	public Set<String> getLiterals()
+	{
+		Set<String> result = new HashSet<String>();
+		Iterator<State> it = states.iterator();
+		while(it.hasNext())
+		{
+			result.addAll(it.next().getLiterals());
+		}
+		return result;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (allowDuplicatedStateLabels ? 1231 : 1237);
+		result = prime * result + (deterministic ? 1231 : 1237);
+		result = prime * result
+				+ ((initialState == null) ? 0 : initialState.hashCode());
+		result = prime * result + ((label == null) ? 0 : label.hashCode());
+		result = prime * result + ((states == null) ? 0 : states.hashCode());
+		result = prime * result
+				+ ((transitions == null) ? 0 : transitions.hashCode());
+		return result;
+	}
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		KMTS other = (KMTS) obj;
+//		if (allowDuplicatedStateLabels != other.allowDuplicatedStateLabels)
+//			return false;
+//		if (deterministic != other.deterministic)
+//			return false;
+//		if (initialState == null) {
+//			if (other.initialState != null)
+//				return false;
+//		} else if (!initialState.equals(other.initialState))
+//			return false;
+//		if (label == null) {
+//			if (other.label != null)
+//				return false;
+//		} else if (!label.equals(other.label))
+//			return false;
+//		if (states == null) {
+//			if (other.states != null)
+//				return false;
+//		} else if (!states.equals(other.states))
+//			return false;
+//		if (transitions == null) {
+//			if (other.transitions != null)
+//				return false;
+//		} else if (!transitions.equals(other.transitions))
+//			return false;
+//		return true;
+//	}
 }

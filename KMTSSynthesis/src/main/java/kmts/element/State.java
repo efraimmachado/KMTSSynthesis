@@ -17,7 +17,7 @@ public class State {
 	private Set<AtomicProposition> prepositions;
 	private Set<Transition> inTransitions;
 	private Set<Transition> outTransitions;
-
+	
 	//Constroi um estado criando os conjuntos de proposisões atômicas e os de transições vazios
 	public State() {
 		super();
@@ -51,8 +51,11 @@ public class State {
 		{
 			p.setValue(value);
 		}
-                //está faltando 'else'? não tem retorno antes
-		throw new RuntimeException("STATE DOESN'T HAVE LITERAL "+literal);
+		else
+		{
+			//está faltando 'else'? não tem retorno antes
+			throw new RuntimeException("STATE DOESN'T HAVE LITERAL "+literal);
+		}
 	}
 	
         //Retorna o valor da uma preposição. 
@@ -75,7 +78,7 @@ public class State {
 		while (it.hasNext())
 		{
 			AtomicProposition p = (AtomicProposition)it.next();
-			if (p.getLiteral().equals(p))
+			if (p.getLiteral().equals(literal))
 			{
 				return p;
 			}
@@ -97,6 +100,7 @@ public class State {
 	public Set<Transition> getOutTransitions() {
 		return outTransitions;
 	}
+	
 
 	//Retorna o rotulo do estado
 	public String getLabel() {
@@ -128,16 +132,18 @@ public class State {
 		Iterator<AtomicProposition> it = prepositions.iterator();
 		boolean first = true;
 		String toAppend;
+		AtomicProposition ap;
 		while(it.hasNext())
 		{
+			ap = it.next();
 			if (first)
 			{
-				toAppend = ((AtomicProposition)it.next()).toString();
+				toAppend = ap.toString();
 				first = false;
 			}
 			else
 			{
-				toAppend = ", "+((AtomicProposition)it.next()).toString() ;
+				toAppend = ", "+ap.toString() ;
 			}
 			result.append(toAppend);
 		}
@@ -175,5 +181,142 @@ public class State {
                 {
                     System.out.println("Transição invalida.");
                 }
+	}
+
+	public boolean isDirectlyReachableFromMustTransition(State potentialFromState) 
+	{
+		return isDirectlyReachableFromTransition(potentialFromState, null, true);
+	}
+	
+	public boolean isDirectlyReachableFromMayTransition(State potentialFromState) {
+		return isDirectlyReachableFromTransition(potentialFromState, null, false);
+	}
+
+	private boolean isDirectlyReachableFromTransition(State potentialFromState, String action, boolean mustTransition) {
+		
+		if (potentialFromState != null && getInTransitions() != null)
+		{
+			Iterator<Transition> it = getInTransitions().iterator();
+			Transition transition = null;
+			while (it.hasNext())
+			{
+				transition = it.next();
+				if (action == null || (action.equals(transition.getAction())))
+				{
+					if ((transition.isMustTransition() && mustTransition) || (!mustTransition))
+					{
+						if (transition.getFromState().equals(potentialFromState))
+						{
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean isDirectlyReachableFromMayTransitionAndAction(
+			State potentialFromState, String toStateAction) {
+		return isDirectlyReachableFromTransition(potentialFromState, toStateAction, false);
+	}
+
+	public Transition getOutTransition(String desiredAction) 
+	{
+		if (outTransitions != null)
+		{
+			return getTransition(outTransitions, desiredAction);
+		}
+		return null;
+	}
+	
+	private Transition getTransition(Set<Transition> transitions, String action)
+	{
+		Iterator<Transition> it = transitions.iterator();
+		Transition transition = null;
+		while (it.hasNext())
+		{
+			transition = it.next();
+			if (transition.getAction().equals(action))
+			{
+				return transition;
+			}
+		}
+		return null;
+		
+	}
+	
+	public State clone()
+	{
+		State result = new State();
+		result.setLabel(label);
+		Iterator<AtomicProposition> it = prepositions.iterator();
+		AtomicProposition ap;
+		while(it.hasNext())
+		{
+			ap = it.next();
+			result.addPreposition(ap.getLiteral(), ap.getValue());
+		}
+		return result;
+	}
+
+	public Set<String> getLiterals() {
+		Set<String> result = new HashSet<String>();
+		Iterator<AtomicProposition> it = prepositions.iterator();
+		while(it.hasNext())
+		{
+			result.add(it.next().getLiteral());
+		}
+		return result;
+	}
+
+	public boolean hasLiteral(String literal) {
+		return getLiterals().contains(literal);
+	}
+
+	public boolean isDirectlyReachableFromMustTransitionAndAction(
+			State potentialFromState, String toStateAction) {
+		return isDirectlyReachableFromTransition(potentialFromState, toStateAction, true);
+	}
+
+	public Transition getInTransition(String action) 
+	{
+		if (inTransitions != null)
+		{
+			return getTransition(inTransitions, action);
+		}
+		return null;
+	}
+
+	public void removeTransition(Transition transition) 
+	{
+		inTransitions.remove(transition);
+		outTransitions.remove(transition);
+		
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((label == null) ? 0 : label.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		State other = (State) obj;
+		if (label == null) {
+			if (other.label != null)
+				return false;
+		} else if (!label.equals(other.label))
+			return false;
+		return true;
 	}
 }

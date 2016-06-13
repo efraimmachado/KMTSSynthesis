@@ -32,8 +32,8 @@ public class AtomicProposition extends ABooleanExpression implements IBooleanExp
 	@Override
 	public String toString()
 	{
-		return literal;
-		//return literal+" = "+(value == null?"?":(value?"T":"F")); 
+		//return literal;
+		return literal+" = "+(value == null?"?":(value?"T":"F")); 
 	}
 	
 	public String toStringWithValue()
