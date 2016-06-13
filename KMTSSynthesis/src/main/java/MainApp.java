@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import operations.refinementrepair.RefinementRepair;
+
 import kmts.KMTS;
 import kmts.element.State;
 import kmts.element.Transition;
@@ -12,7 +14,7 @@ import logic.booleanexpression.AndBooleanExpression;
 import logic.booleanexpression.AtomicProposition;
 import logic.booleanexpression.IBooleanExpression;
 import logic.booleanexpression.NegBooleanExpression;
-import logic.booleanexpression.OrBooleanExpression;
+import relations.refinement.refinementgame.RefinementGame;
 import synthesizer.Synthesizer;
 import uml.sequencediagram.Action;
 import uml.sequencediagram.Lifeline;
@@ -28,7 +30,289 @@ public class MainApp {
 		//testBooleanExpression();
 		//testValuationToExpression();
 		//testPermutation();
-                testStateToString();
+        //testStateToString();
+		//testRefinementGame();
+		//testSimpleRefinementRepair();
+		testRefinementRepair();
+		
+	}
+	
+	private static void testSimpleRefinementRepair() {
+		RefinementRepair refinementRepair = new RefinementRepair();
+		System.out.println("REFINAMENTOS:\n"+refinementRepair.refinementRepair(getSimpleSpecification(), getSimpleModel()));
+		
+	}
+
+	private static KMTS getSimpleSpecification()
+	{
+		KMTS kmts = new KMTS("SIMPLE SPECIFICATION");
+		
+		State readyState = new State();
+		readyState.setLabel("s0");
+		readyState.addPreposition("s", true);
+		kmts.addInitialState(readyState);
+		
+		State autoFocusState = new State();
+		autoFocusState.setLabel("s1");
+		autoFocusState.addPreposition("s", true);
+		kmts.addState(autoFocusState);
+		kmts.addMustTransitionBetween(readyState, autoFocusState, "a");
+		kmts.addMustTransitionBetween(autoFocusState, readyState, "a");
+		return kmts;
+	}
+
+	private static KMTS getSimpleModel()
+	{
+		KMTS kmts = new KMTS("SIMPLE MODEL");
+		
+		State readyState = new State();
+		readyState.setLabel("t0");
+		readyState.addPreposition("s", true);
+		kmts.addInitialState(readyState);
+		
+		State autoFocusState = new State();
+		autoFocusState.setLabel("t1");
+		autoFocusState.addPreposition("s", true);
+		kmts.addState(autoFocusState);
+		kmts.addMayTransitionBetween(readyState, autoFocusState, "a");
+		kmts.addMustTransitionBetween(autoFocusState, readyState, "a");
+		return kmts;
+	}
+
+	
+	private static void testRefinementRepair() {
+		RefinementRepair refinementRepair = new RefinementRepair();
+		//refinementRepair.refinementRepair(getCameraSpecification(), getCameraModelCThreeLines());
+		System.out.println("REFINAMENTOS:\n"+refinementRepair.refinementRepair(getCameraSpecification(), getCameraModelC()));
+		
+	}
+
+	private static void testRefinementGame()
+	{
+		RefinementGame refinementGame = new RefinementGame(getCameraSpecification(), getCameraModelB());
+		refinementGame.generateRefinementGame();
+		System.out.println("OS MODELOS"+(refinementGame.getIsRefinement()?"":" NÃO")+" SÃO REFINAMENTO");
+		RefinementGame refinementGame2 = new RefinementGame(getCameraSpecification(), getCameraModelD());
+		refinementGame2.generateRefinementGame();
+		System.out.println("OS MODELOS"+(refinementGame2.getIsRefinement()?"":" NÃO")+" SÃO REFINAMENTO");
+		System.out.println("CAUSAS DE FALHA: "+refinementGame2.getFailureWitnesses());
+		
+
+	}
+	
+	private static KMTS getCameraSpecification()
+	{
+		KMTS kmts = new KMTS("CAMERA SPECIFICATION");
+		
+		State readyState = new State();
+		readyState.setLabel("s0");
+		readyState.addPreposition("s", false);
+		readyState.addPreposition("fo", false);
+		readyState.addPreposition("fl", null);
+		kmts.addInitialState(readyState);
+		
+		State autoFocusState = new State();
+		autoFocusState.setLabel("s1");
+		autoFocusState.addPreposition("s", false);
+		autoFocusState.addPreposition("fo", true);
+		autoFocusState.addPreposition("fl", null);
+		kmts.addState(autoFocusState);
+		kmts.addMustTransitionBetween(readyState, autoFocusState, "a");
+		kmts.addMayTransitionBetween(autoFocusState, readyState, "c");
+		
+		State faceFocusState = new State();
+		faceFocusState.setLabel("s2");
+		faceFocusState.addPreposition("s", false);
+		faceFocusState.addPreposition("fo", true);
+		faceFocusState.addPreposition("fl", null);
+		kmts.addState(faceFocusState);
+		kmts.addMayTransitionBetween(faceFocusState, autoFocusState, "b");
+		kmts.addMayTransitionBetween(autoFocusState, faceFocusState, "b");
+		
+		State shootingState = new State();
+		shootingState.setLabel("s3");
+		shootingState.addPreposition("s", true);
+		shootingState.addPreposition("fo", false);
+		shootingState.addPreposition("fl", null);
+		kmts.addState(shootingState);
+		kmts.addMustTransitionBetween(autoFocusState, shootingState, "a");
+		kmts.addMustTransitionBetween(shootingState, readyState, "t");
+		
+		System.out.println(kmts.toString());
+		return kmts;
+	}
+	
+	private static KMTS getCameraModelB()
+	{
+		KMTS kmts = new KMTS("CAMERA MODEL B");
+		
+		State readyState = new State();
+		readyState.setLabel("t0");
+		readyState.addPreposition("s", false);
+		readyState.addPreposition("fo", false);
+		readyState.addPreposition("fl", null);
+		kmts.addInitialState(readyState);
+		
+		State autoFocusState = new State();
+		autoFocusState.setLabel("t1");
+		autoFocusState.addPreposition("s", false);
+		autoFocusState.addPreposition("fo", true);
+		autoFocusState.addPreposition("fl", null);
+		kmts.addState(autoFocusState);
+		kmts.addMustTransitionBetween(readyState, autoFocusState, "a");
+		kmts.addMayTransitionBetween(autoFocusState, readyState, "c");
+		
+		State shootingState = new State();
+		shootingState.setLabel("t2");
+		shootingState.addPreposition("s", true);
+		shootingState.addPreposition("fo", false);
+		shootingState.addPreposition("fl", null);
+		kmts.addState(shootingState);
+		kmts.addMustTransitionBetween(autoFocusState, shootingState, "a");
+		kmts.addMustTransitionBetween(shootingState, readyState, "t");
+		
+		System.out.println(kmts.toString());
+		return kmts;
+	}
+	
+	private static KMTS getCameraModelC()
+	{
+		KMTS kmts = new KMTS("CAMERA MODEL C");
+		
+		State readyState = new State();
+		readyState.setLabel("t0");
+		readyState.addPreposition("s", false);
+		readyState.addPreposition("fo", false);
+		readyState.addPreposition("fl", null);
+		kmts.addInitialState(readyState);
+		
+		State autoFocusState = new State();
+		autoFocusState.setLabel("t1");
+		autoFocusState.addPreposition("s", false);
+		autoFocusState.addPreposition("fo", true);
+		autoFocusState.addPreposition("fl", null);
+		kmts.addState(autoFocusState);
+		kmts.addMustTransitionBetween(readyState, autoFocusState, "a");
+		kmts.addMayTransitionBetween(autoFocusState, readyState, "c");
+		
+		State shootingState = new State();
+		shootingState.setLabel("t2");
+		shootingState.addPreposition("s", true);
+		shootingState.addPreposition("fo", false);
+		shootingState.addPreposition("fl", null);
+		kmts.addState(shootingState);
+		kmts.addMustTransitionBetween(autoFocusState, shootingState, "a");
+		//kmts.addMustTransitionBetween(shootingState, readyState, "t");
+		
+		System.out.println(kmts.toString());
+		return kmts;
+	}
+
+	private static KMTS getCameraModelCThreeLines()
+	{
+		KMTS kmts = new KMTS("CAMERA MODEL C'''");
+		
+		State readyState = new State();
+		readyState.setLabel("t0");
+		readyState.addPreposition("s", false);
+		readyState.addPreposition("fo", true);
+		readyState.addPreposition("fl", null);
+		kmts.addInitialState(readyState);
+		kmts.addMustTransitionBetween(readyState, readyState, "a");
+		
+		State autoFocusState = new State();
+		autoFocusState.setLabel("t1");
+		autoFocusState.addPreposition("s", false);
+		autoFocusState.addPreposition("fo", false);
+		autoFocusState.addPreposition("fl", null);
+		kmts.addState(autoFocusState);
+		//kmts.addMustTransitionBetween(readyState, autoFocusState, "a");
+		kmts.addMayTransitionBetween(autoFocusState, readyState, "c");
+		
+		State shootingState = new State();
+		shootingState.setLabel("t2");
+		shootingState.addPreposition("s", true);
+		shootingState.addPreposition("fo", false);
+		shootingState.addPreposition("fl", null);
+		kmts.addState(shootingState);
+		kmts.addMustTransitionBetween(autoFocusState, shootingState, "a");
+		//kmts.addMustTransitionBetween(shootingState, readyState, "t");
+		kmts.addMustTransitionBetween(shootingState, autoFocusState, "t");
+		
+		System.out.println(kmts.toString());
+		return kmts;
+	}
+	
+	private static KMTS getCameraModelCFourLines()
+	{
+		KMTS kmts = new KMTS("CAMERA MODEL C''''");
+		State shootingState = new State();
+		State readyState = new State();
+		State autoFocusState = new State();
+		
+		readyState.setLabel("t0");
+		readyState.addPreposition("s", false);
+		readyState.addPreposition("fo", false);
+		readyState.addPreposition("fl", null);
+		kmts.addInitialState(readyState);
+		
+		autoFocusState.setLabel("t1");
+		autoFocusState.addPreposition("s", true);
+		autoFocusState.addPreposition("fo", false);
+		autoFocusState.addPreposition("fl", null);
+		kmts.addState(autoFocusState);
+		
+		shootingState.setLabel("t2");
+		shootingState.addPreposition("s", false);
+		shootingState.addPreposition("fo", true);
+		shootingState.addPreposition("fl", null);
+		kmts.addState(shootingState);
+		
+		kmts.addMustTransitionBetween(readyState, shootingState, "a");
+		kmts.addMustTransitionBetween(shootingState, autoFocusState, "a");
+		kmts.addMayTransitionBetween(autoFocusState, readyState, "c");
+		
+		kmts.addMustTransitionBetween(shootingState, autoFocusState, "t");
+		kmts.addMustTransitionBetween(autoFocusState, readyState, "t");
+		
+		
+		System.out.println(kmts.toString());
+		return kmts;
+	}
+	
+	
+	private static KMTS getCameraModelD()
+	{
+		KMTS kmts = new KMTS("CAMERA MODEL D");
+		
+		State readyState = new State();
+		readyState.setLabel("t0");
+		readyState.addPreposition("s", false);
+		readyState.addPreposition("fo", false);
+		readyState.addPreposition("fl", null);
+		kmts.addInitialState(readyState);
+		
+		State autoFocusState = new State();
+		autoFocusState.setLabel("t1");
+		autoFocusState.addPreposition("s", false);
+		autoFocusState.addPreposition("fo", true);
+		autoFocusState.addPreposition("fl", null);
+		kmts.addState(autoFocusState);
+		kmts.addMustTransitionBetween(readyState, autoFocusState, "a");
+		kmts.addMayTransitionBetween(autoFocusState, readyState, "c");
+		
+		State shootingState = new State();
+		shootingState.setLabel("t2");
+		shootingState.addPreposition("s", false);
+		shootingState.addPreposition("fo", false);
+		shootingState.addPreposition("fl", null);
+		kmts.addState(shootingState);
+		kmts.addMustTransitionBetween(autoFocusState, shootingState, "a");
+		kmts.addMustTransitionBetween(shootingState, shootingState, "a");
+		//kmts.addMustTransitionBetween(shootingState, readyState, "t");
+		
+		System.out.println(kmts.toString());
+		return kmts;
 	}
 	
 	private static void testValuationToExpression() 
@@ -41,7 +325,8 @@ public class MainApp {
 		
 		System.out.println("---[BOOLEAN EXPRESSION SOLUTIONS]--");
 		//expression = new AndBooleanExpression(new AndBooleanExpression(a, b), new NegBooleanExpression(c));
-		expression = new OrBooleanExpression(new OrBooleanExpression(a, b), c);
+		//expression = new OrBooleanExpression(new OrBooleanExpression(a, b), c);
+		expression = a;
 		System.out.println(expression.toString());
 		System.out.println("SOLUTIONS:");
 		Set<Set<AtomicProposition>> result = ThreeLogicResolver.getValuationsSatisfiesExpression(expression);
